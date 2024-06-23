@@ -1,6 +1,14 @@
 import { Title, Text, ScrollArea, Textarea, Button, SimpleGrid, Container, Space, Code } from '@mantine/core';
 import { useState } from 'react';
 import { CodeHighlight } from '@mantine/code-highlight';
+import { useMantineTheme } from '@mantine/core';
+
+import {
+    IconCheck,
+    IconNotebook,
+    IconWeight,
+    IconClipboard
+} from '@tabler/icons-react';
 
 export function XmlLinter() {
 
@@ -9,6 +17,8 @@ export function XmlLinter() {
     const [statusText, setStatusText] = useState(<Text span>Empty</Text>)
 
     const domParser = new DOMParser();
+
+    const theme = useMantineTheme();
 
     // XML Pretty print credit:
     // https://stackoverflow.com/questions/376373/pretty-printing-xml-with-javascript
@@ -123,9 +133,9 @@ export function XmlLinter() {
     }
 
     return (
-        <Container fluid flex={1} maw={'86%'}>
+        <Container fluid flex={1} maw={'86%'} style={{height: '100vh', width: '100%'}}>
             <Title ta='center' mt={100} size='72'>
-                <Text inherit variant="gradient" component="span" gradient={{ from: 'rgb(255, 142, 243)', to: 'rgb(142, 255, 255)' }}>XML Linter</Text>
+                <Text inherit variant="gradient" component="span" gradient={{ from: theme.colors.pink[3], to: theme.colors.blue[3] }}>XML Linter</Text>
             </Title>
 
             <Textarea
@@ -140,9 +150,9 @@ export function XmlLinter() {
             <Space h='md'></Space>
 
             <SimpleGrid cols={3}>
-                <Button color='grape' onClick={onParseXML}>Validate XML</Button>
-                <Button color='grape' onClick={onPrettyXML}>Prettify XML</Button>
-                <Button color='grape' onClick={onCondeseXML}>Condense XML</Button>
+                <Button color='grape' onClick={onParseXML}><IconCheck/>Validate XML</Button>
+                <Button color='grape' onClick={onPrettyXML}><IconNotebook/>Prettify XML</Button>
+                <Button color='grape' onClick={onCondeseXML}><IconWeight/>Condense XML</Button>
             </SimpleGrid>
 
             <Space h='md'></Space>
@@ -153,11 +163,13 @@ export function XmlLinter() {
 
             <Space h='md'></Space>
 
-            <Text>Output</Text>
-            <Button color='grape' onClick={onCopyToClipboard}>Copy to clipboard</Button>
-            <ScrollArea.Autosize mah={300} type='always' offsetScrollbars>
-                <CodeHighlight code={xmlOutput} language='xml' withCopyButton={false}></CodeHighlight>
-            </ScrollArea.Autosize>
+            <SimpleGrid cols={1}>
+                <Text>Output</Text>
+                <ScrollArea.Autosize mah={300} type='always'>
+                    <CodeHighlight code={xmlOutput} language='xml' withCopyButton={false}></CodeHighlight>
+                </ScrollArea.Autosize>
+                <Button color='grape' onClick={onCopyToClipboard} disabled={xmlOutput==''}><IconClipboard/>Copy to clipboard</Button>
+            </SimpleGrid>
 
             <Space h='xl'></Space>
             <Space h='xl'></Space>

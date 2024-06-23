@@ -1,14 +1,13 @@
-import { useState } from 'react';
 import { Group, Code, Text, Space } from '@mantine/core';
 import {
-    IconLink,
     IconJson,
     IconLockOpen,
     IconKey,
     IconBook,
     IconFileTypeXml,
     IconHtml,
-    IconFileCode2
+    IconFileCode2,
+    IconAtom2
 } from '@tabler/icons-react';
 import classes from './Navbar.module.css';
 import { ColorSchemeToggle } from '../ColorSchemeToggle/ColorSchemeToggle';
@@ -44,8 +43,11 @@ export function NavbarSimple(props : any) {
         <nav className={classes.navbar}>
             <div className={classes.navbarMain}>
                 <Group className={classes.header} justify="space-between">
-                    <Text>Javascript Utils</Text>
-                    <Code fw={700}>v1.1.0</Code>
+                    <Group>
+                        <IconAtom2/>
+                        <Text>Javascript Utils</Text>
+                    </Group>
+                    <Code fw={700}>v1.2.0</Code>
                 </Group>
                 {links}
             </div>

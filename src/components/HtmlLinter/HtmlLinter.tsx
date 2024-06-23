@@ -3,6 +3,14 @@ import { useState } from 'react';
 import { CodeHighlight } from '@mantine/code-highlight';
 // TODO - at some point, replace this with 'js-beautify' directly
 import pretty from 'pretty';
+import { useMantineTheme } from '@mantine/core';
+
+import {
+    IconCheck,
+    IconNotebook,
+    IconWeight,
+    IconClipboard
+} from '@tabler/icons-react';
 
 export function HtmlLinter() {
 
@@ -10,6 +18,8 @@ export function HtmlLinter() {
     const [htmlOutput, setHtmlOutput] = useState('');
     const [statusText, setStatusText] = useState(<Text span>Empty</Text>)
     const domParser = new DOMParser();
+
+    const theme = useMantineTheme();
 
     function onParseHTML() {
         try {
@@ -107,10 +117,11 @@ export function HtmlLinter() {
     }
 
     return (
-        <Container fluid flex={1} maw={'86%'}>
+        <Container fluid flex={1} maw={'86%'} style={{height: '100vh', width: '100%'}}>
             <Title ta='center' mt={100} size='72'>
-                <Text inherit variant="gradient" component="span" gradient={{ from: 'rgb(255, 142, 243)', to: 'rgb(142, 255, 255)' }}>HTML Linter</Text>
+                <Text inherit variant="gradient" component="span" gradient={{ from: theme.colors.pink[3], to: theme.colors.blue[3] }}>HTML Linter</Text>
             </Title>
+            <Text><b>Note:</b> HTML validation is <Text color={theme.colors.grape[5]} span>still under development</Text></Text>
 
             <Textarea
                 description='Place HTML into field below and use buttons to interact'
@@ -124,9 +135,9 @@ export function HtmlLinter() {
             <Space h='md'></Space>
 
             <SimpleGrid cols={3}>
-                <Button color='grape' onClick={onParseHTML}>Validate HTML</Button>
-                <Button color='grape' onClick={onPrettyHTML}>Prettify HTML</Button>
-                <Button color='grape' onClick={onCondeseHTML}>Condense HTML</Button>
+                <Button color='grape' onClick={onParseHTML}><IconCheck/>Validate HTML</Button>
+                <Button color='grape' onClick={onPrettyHTML}><IconNotebook/>Prettify HTML</Button>
+                <Button color='grape' onClick={onCondeseHTML}><IconWeight/>Condense HTML</Button>
             </SimpleGrid>
 
             <Space h='md'></Space>
@@ -137,11 +148,13 @@ export function HtmlLinter() {
 
             <Space h='md'></Space>
 
-            <Text>Output</Text>
-            <Button color='grape' onClick={onCopyToClipboard}>Copy to clipboard</Button>
-            <ScrollArea.Autosize mah={300} type='always' offsetScrollbars>
-                <CodeHighlight code={htmlOutput} language='html' withCopyButton={false}></CodeHighlight>
-            </ScrollArea.Autosize>
+            <SimpleGrid cols={1}>
+                <Text>Output</Text>
+                <ScrollArea.Autosize mah={300} type='always'>
+                    <CodeHighlight code={htmlOutput} language='html' withCopyButton={false}></CodeHighlight>
+                </ScrollArea.Autosize>
+                <Button color='grape' onClick={onCopyToClipboard} disabled={htmlOutput==''}><IconClipboard/>Copy to clipboard</Button>
+            </SimpleGrid>
 
             <Space h='xl'></Space>
             <Space h='xl'></Space>

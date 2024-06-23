@@ -1,12 +1,21 @@
 import { Title, Text, ScrollArea, Textarea, Button, SimpleGrid, Container, Space } from '@mantine/core';
 import { useState } from 'react';
 import { CodeHighlight } from '@mantine/code-highlight';
+import { useMantineTheme } from '@mantine/core';
+
+import {
+    IconLock,
+    IconLockOpen,
+    IconClipboard
+} from '@tabler/icons-react';
 
 export function Base64Decoder() {
 
     const [base64Input, setBase64Input] = useState('');
     const [base64Output, setBase64Output] = useState('');
     const [statusText, setStatusText] = useState(<Text span>Empty</Text>)
+
+    const theme = useMantineTheme();
 
     // Credit: https://stackoverflow.com/questions/30106476/using-javascripts-atob-to-decode-base64-doesnt-properly-decode-utf-8-strings
     function b64EncodeUnicode(str : string) {
@@ -31,6 +40,7 @@ export function Base64Decoder() {
         catch (error) {
             {/* @ts-ignore */}
             setStatusText((<><Text span color='red'>Error decoding Base64</Text><br /><Text span>{error.message}</Text></>));
+            setBase64Output("");
         }
     }
 
@@ -51,9 +61,9 @@ export function Base64Decoder() {
     }
 
     return (
-        <Container fluid flex={1} maw={'86%'}>
+        <Container fluid flex={1} maw={'86%'} style={{height: '100vh', width: '100%'}}>
             <Title ta='center' mt={100} size='72'>
-                <Text inherit variant="gradient" component="span" gradient={{ from: 'rgb(255, 142, 243)', to: 'rgb(142, 255, 255)' }}>Base64 Decoder</Text>
+                <Text inherit variant="gradient" component="span" gradient={{ from: theme.colors.pink[3], to: theme.colors.blue[3] }}>Base64 Decoder</Text>
             </Title>
 
             <Textarea
@@ -68,8 +78,8 @@ export function Base64Decoder() {
             <Space h='md'></Space>
 
             <SimpleGrid cols={2}>
-                <Button color='grape' onClick={onDecodeBase64}>Decode Base64</Button>
-                <Button color='grape' onClick={onEncodeBase64}>Encode Base64</Button>
+                <Button color='grape' onClick={onDecodeBase64}><IconLockOpen/>Decode Base64</Button>
+                <Button color='grape' onClick={onEncodeBase64}><IconLock/>Encode Base64</Button>
             </SimpleGrid>
 
             <Space h='md'></Space>
@@ -80,11 +90,13 @@ export function Base64Decoder() {
 
             <Space h='md'></Space>
 
-            <Text>Output</Text>
-            <Button color='grape' onClick={onCopyToClipboard}>Copy to clipboard</Button>
-            <ScrollArea.Autosize mah={300} type='always' offsetScrollbars>
-                <CodeHighlight code={base64Output} language='jsx' withCopyButton={false}></CodeHighlight>
-            </ScrollArea.Autosize>
+            <SimpleGrid cols={1}>
+                <Text>Output</Text>
+                <ScrollArea.Autosize mah={300} type='always'>
+                    <CodeHighlight code={base64Output} language='jsx' withCopyButton={false}></CodeHighlight>
+                </ScrollArea.Autosize>
+                <Button color='grape' onClick={onCopyToClipboard} disabled={base64Output==''}><IconClipboard/>Copy to clipboard</Button>
+            </SimpleGrid>
 
         </Container>
     );

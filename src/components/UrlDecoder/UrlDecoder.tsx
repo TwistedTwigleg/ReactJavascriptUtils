@@ -1,12 +1,21 @@
 import { Title, Text, ScrollArea, Textarea, Button, SimpleGrid, Container, Space } from '@mantine/core';
 import { useState } from 'react';
 import { CodeHighlight } from '@mantine/code-highlight';
+import { useMantineTheme } from '@mantine/core';
+
+import {
+    IconLock,
+    IconLockOpen,
+    IconClipboard
+} from '@tabler/icons-react';
 
 export function UrlDecoder() {
 
     const [urlInput, setUrlInput] = useState('');
     const [urlOutput, setUrlOutput] = useState('');
-    const [statusText, setStatusText] = useState(<Text span>Empty</Text>)
+    const [statusText, setStatusText] = useState(<Text span>Empty</Text>);
+
+    const theme = useMantineTheme();
 
     function onDecodeUrl() {
         try {
@@ -37,9 +46,9 @@ export function UrlDecoder() {
     }
 
     return (
-        <Container fluid flex={1} maw={'86%'}>
+        <Container fluid flex={1} maw={'86%'} style={{height: '100vh', width: '100%'}}>
             <Title ta='center' mt={100} size='72'>
-                <Text inherit variant="gradient" component="span" gradient={{ from: 'rgb(255, 142, 243)', to: 'rgb(142, 255, 255)' }}>URL Decoder</Text>
+                <Text inherit variant="gradient" component="span" gradient={{ from: theme.colors.pink[3], to: theme.colors.blue[3] }}>URL Decoder</Text>
             </Title>
 
             <Textarea
@@ -54,8 +63,8 @@ export function UrlDecoder() {
             <Space h='md'></Space>
 
             <SimpleGrid cols={2}>
-                <Button color='grape' onClick={onDecodeUrl}>Decode URL</Button>
-                <Button color='grape' onClick={onEncodeUrl}>Encode URL</Button>
+                <Button color='grape' onClick={onDecodeUrl}><IconLockOpen/>Decode URL</Button>
+                <Button color='grape' onClick={onEncodeUrl}><IconLock/>Encode URL</Button>
             </SimpleGrid>
 
             <Space h='md'></Space>
@@ -66,11 +75,13 @@ export function UrlDecoder() {
 
             <Space h='md'></Space>
 
-            <Text>Output</Text>
-            <Button color='grape' onClick={onCopyToClipboard}>Copy to clipboard</Button>
-            <ScrollArea.Autosize mah={300} type='always' offsetScrollbars>
-                <CodeHighlight code={urlOutput} language='json' withCopyButton={false}></CodeHighlight>
-            </ScrollArea.Autosize>
+            <SimpleGrid cols={1}>
+                <Text>Output</Text>
+                <ScrollArea.Autosize mah={300} type='always'>
+                    <CodeHighlight code={urlOutput} language='json' withCopyButton={false}></CodeHighlight>
+                </ScrollArea.Autosize>
+                <Button color='grape' onClick={onCopyToClipboard} disabled={urlOutput==''}><IconClipboard/>Copy to clipboard</Button>
+            </SimpleGrid>
 
         </Container>
     );

@@ -1,6 +1,14 @@
 import { Title, Text, ScrollArea, Textarea, Button, SimpleGrid, Container, Space } from '@mantine/core';
 import { useState } from 'react';
 import { CodeHighlight } from '@mantine/code-highlight';
+import { useMantineTheme } from '@mantine/core';
+
+import {
+    IconCheck,
+    IconNotebook,
+    IconWeight,
+    IconClipboard
+} from '@tabler/icons-react';
 
 export function JsonLinter() {
 
@@ -8,6 +16,8 @@ export function JsonLinter() {
     const [jsonLintOutput, setJsonLintOutput] = useState('');
     
     const [statusText, setStatusText] = useState(<Text span>Empty</Text>)
+
+    const theme = useMantineTheme();
 
     function onParseJSON() {
         try {
@@ -34,10 +44,12 @@ export function JsonLinter() {
             if (error instanceof SyntaxError) {
                 console.log(error);
                 setStatusText((<><Text span color='red'>JSON is invalid</Text><br /><Text span>{error.toString()}</Text></>));
+                setJsonLintOutput("");
             }
             else {
                 {/* @ts-ignore */}
                 setStatusText((<><Text span color='red'>JSON is invalid</Text><br /><Text span>{error.message}</Text></>));
+                setJsonLintOutput("");
             }
         }
     }
@@ -51,10 +63,12 @@ export function JsonLinter() {
             if (error instanceof SyntaxError) {
                 console.log(error);
                 setStatusText((<><Text span color='red'>JSON is invalid</Text><br /><Text span>{error.toString()}</Text></>));
+                setJsonLintOutput("");
             }
             else {
                 {/* @ts-ignore */}
                 setStatusText((<><Text span color='red'>JSON is invalid</Text><br /><Text span>{error.message}</Text></>));
+                setJsonLintOutput("");
             }
         }
     }
@@ -65,9 +79,9 @@ export function JsonLinter() {
     }
 
     return (
-        <Container fluid flex={1} maw={'86%'}>
+        <Container fluid flex={1} maw={'86%'} style={{height: '100vh', width: '100%'}}>
             <Title ta='center' mt={100} size='72'>
-                <Text inherit variant="gradient" component="span" gradient={{ from: 'rgb(255, 142, 243)', to: 'rgb(142, 255, 255)' }}>JSON Linter</Text>
+                <Text inherit variant="gradient" component="span" gradient={{ from: theme.colors.pink[3], to: theme.colors.blue[3] }}>JSON Linter</Text>
             </Title>
 
             <Textarea
@@ -82,9 +96,9 @@ export function JsonLinter() {
             <Space h='md'></Space>
 
             <SimpleGrid cols={3}>
-                <Button color='grape' onClick={onParseJSON}>Validate JSON</Button>
-                <Button color='grape' onClick={onPrettyJSON}>Prettify JSON</Button>
-                <Button color='grape' onClick={onCondeseJSON}>Condense JSON</Button>
+                <Button color='grape' onClick={onParseJSON}><IconCheck/>Validate JSON</Button>
+                <Button color='grape' onClick={onPrettyJSON}><IconNotebook/>Prettify JSON</Button>
+                <Button color='grape' onClick={onCondeseJSON}><IconWeight/>Condense JSON</Button>
             </SimpleGrid>
 
             <Space h='md'></Space>
@@ -95,11 +109,13 @@ export function JsonLinter() {
 
             <Space h='md'></Space>
 
-            <Text>Output</Text>
-            <Button color='grape' onClick={onCopyToClipboard}>Copy to clipboard</Button>
-            <ScrollArea.Autosize mah={300} type='always' offsetScrollbars>
-                <CodeHighlight code={jsonLintOutput} language='json' withCopyButton={false}></CodeHighlight>
-            </ScrollArea.Autosize>
+            <SimpleGrid cols={1}>
+                <Text>Output</Text>
+                <ScrollArea.Autosize mah={300} type='always'>
+                    <CodeHighlight code={jsonLintOutput} language='json' withCopyButton={false}></CodeHighlight>
+                </ScrollArea.Autosize>
+                <Button color='grape' onClick={onCopyToClipboard} disabled={jsonLintOutput==''}><IconClipboard/>Copy to clipboard</Button>
+            </SimpleGrid>
 
             <Space h='xl'></Space>
             <Space h='xl'></Space>
