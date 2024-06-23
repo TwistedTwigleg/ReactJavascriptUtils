@@ -10,6 +10,7 @@ import { XmlLinter } from '@/components/XmlLinter/XmlLinter';
 import { HtmlLinter } from '@/components/HtmlLinter/HtmlLinter';
 
 import { useMantineTheme } from '@mantine/core';
+import { InputCompare } from '@/components/InputCompare/InputCompare';
 
 export function HomePage() {
 
@@ -34,6 +35,9 @@ export function HomePage() {
     }
     else if (currentView === "JWT Viewer") {
       return (<JWTViewer></JWTViewer>)
+    }
+    else if (currentView === "Input Compare") {
+      return (<InputCompare></InputCompare>)
     }
     else {
       return (<Container style={{height: '100vh', width: '100%'}}>
