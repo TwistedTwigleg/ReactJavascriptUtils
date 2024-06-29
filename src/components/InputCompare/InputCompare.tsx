@@ -1,4 +1,4 @@
-import { Title, Text, ScrollArea, Textarea, Button, SimpleGrid, Container, Space, Select, Paper } from '@mantine/core';
+import { Title, Text, ScrollArea, Textarea, Button, SimpleGrid, Container, Space, Select, Paper, FileInput, Group } from '@mantine/core';
 import { useState, useRef } from 'react';
 import { useMantineTheme } from '@mantine/core';
 import {
@@ -18,6 +18,9 @@ export function InputCompare() {
     const viewportRightRef = useRef<HTMLDivElement>(null);
     const ignoreNextScroll = useRef(false);
     const [comparisonViewMode, setComparisonViewMode] = useState<string | null>('Show Both Inputs');
+
+    const [inputFileValueLeft, setInputFileValueLeft] = useState<File | null>(null);
+    const [inputFileValueRight, setInputFileValueRight] = useState<File | null>(null);
 
     function onCompareInputs() {
         let dmp = new diffMatchPatch.DiffMatchPatch();
@@ -145,6 +148,47 @@ export function InputCompare() {
         }
     }
 
+    function onFileLoadLeft(value : File | null ) {
+        setInputFileValueLeft(value);
+
+        if (value !== null) {
+            if(!window.FileReader) {
+                console.log("ERROR - browser is not compatible to read files!");
+                setLeftTextInput("Could not read file - browser is not compatible");
+                return; // Browser is not compatible
+            }
+            var reader = new FileReader();
+            reader.readAsText(value);
+            reader.onloadend = function() {
+                let resStr = reader.result?.toString() || "";
+                setLeftTextInput(resStr);
+            }
+        }
+        else {
+            setLeftTextInput("");
+        }
+    }
+    function onFileLoadRight(value : File | null ) {
+        setInputFileValueRight(value);
+
+        if (value !== null) {
+            if(!window.FileReader) {
+                console.log("ERROR - browser is not compatible to read files!");
+                setRightTextInput("Could not read file - browser is not compatible");
+                return; // Browser is not compatible
+            }
+            var reader = new FileReader();
+            reader.readAsText(value);
+            reader.onloadend = function() {
+                let resStr = reader.result?.toString() || "";
+                setRightTextInput(resStr);
+            }
+        }
+        else {
+            setRightTextInput("");
+        }
+    }
+
     return (
         <Container fluid flex={1} maw={'86%'} style={{height: '100vh', width: '100%'}}>
             <Title ta='center' mt={100} size='72'>
@@ -169,6 +213,13 @@ export function InputCompare() {
                     onChange={e => setRightTextInput(e.target.value)}>
                 </Textarea>
             </SimpleGrid>
+
+            <Group>
+                <Text>Upload file:</Text>
+                <FileInput flex={1} value={inputFileValueLeft} onChange={onFileLoadLeft} placeholder="Click to upload file" clearable>Use File</FileInput>
+                <Text>Upload file:</Text>
+                <FileInput flex={1} value={inputFileValueRight} onChange={onFileLoadRight} placeholder="Click to upload file" clearable>Use File</FileInput>
+            </Group>
 
             <Space h='md'></Space>
 

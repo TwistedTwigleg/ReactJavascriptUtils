@@ -128,7 +128,7 @@ export function JWTViewer() {
 
             <Space h='md'></Space>
 
-            <Stack>
+            <Stack gap='xs'>
                 <SimpleGrid cols={2}>
                     <Text>Decoded JWT Header</Text>
                     <Text>Decoded JWT Data</Text>

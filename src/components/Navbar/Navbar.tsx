@@ -47,7 +47,7 @@ export function NavbarSimple(props : any) {
                         <IconAtom2/>
                         <Text>Javascript Utils</Text>
                     </Group>
-                    <Code fw={700}>v1.3.0</Code>
+                    <Code fw={700}>v1.4.0</Code>
                 </Group>
                 {links}
             </div>

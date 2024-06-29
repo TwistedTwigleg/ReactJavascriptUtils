@@ -6,7 +6,8 @@ import { useMantineTheme } from '@mantine/core';
 import {
     IconLock,
     IconLockOpen,
-    IconClipboard
+    IconClipboard,
+    IconFile
 } from '@tabler/icons-react';
 
 export function Base64Decoder() {
@@ -60,6 +61,24 @@ export function Base64Decoder() {
         setStatusText((<Text span color='green'>Output copied to clipboard</Text>));
     }
 
+    function onDownloadFilePressed() {
+        downloadAsFile(base64Output, "jsonOutput.json", "text/plain");
+    }
+    function downloadAsFile(data : any, filename : string, type : string) {
+        // CREDIT: https://stackoverflow.com/questions/13405129/create-and-save-a-file-with-javascript
+        var file = new Blob([data], {type: type});
+        var a = document.createElement("a"),
+                url = URL.createObjectURL(file);
+        a.href = url;
+        a.download = filename;
+        document.body.appendChild(a);
+        a.click();
+        setTimeout(function() {
+            document.body.removeChild(a);
+            window.URL.revokeObjectURL(url);  
+        }, 0); 
+    }
+
     return (
         <Container fluid flex={1} maw={'86%'} style={{height: '100vh', width: '100%'}}>
             <Title ta='center' mt={100} size='72'>
@@ -95,7 +114,11 @@ export function Base64Decoder() {
                 <ScrollArea.Autosize mah={300} type='always'>
                     <CodeHighlight code={base64Output} language='jsx' withCopyButton={false}></CodeHighlight>
                 </ScrollArea.Autosize>
+            </SimpleGrid>
+            <Space h='xs'></Space>
+            <SimpleGrid cols={2}>
                 <Button color='grape' onClick={onCopyToClipboard} disabled={base64Output==''}><IconClipboard/>Copy to clipboard</Button>
+                <Button color='grape' onClick={onDownloadFilePressed} disabled={base64Output==''}><IconFile/>Save to File</Button>
             </SimpleGrid>
 
         </Container>

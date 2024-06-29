@@ -80,6 +80,9 @@ export function UrlDecoder() {
                 <ScrollArea.Autosize mah={300} type='always'>
                     <CodeHighlight code={urlOutput} language='json' withCopyButton={false}></CodeHighlight>
                 </ScrollArea.Autosize>
+            </SimpleGrid>
+            <Space h='xs'></Space>
+            <SimpleGrid cols={1}>
                 <Button color='grape' onClick={onCopyToClipboard} disabled={urlOutput==''}><IconClipboard/>Copy to clipboard</Button>
             </SimpleGrid>
 
