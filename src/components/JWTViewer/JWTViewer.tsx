@@ -99,7 +99,7 @@ export function JWTViewer() {
     }
 
     return (
-        <Container fluid flex={1} maw={'86%'} style={{height: '100vh', width: '100%'}}>
+        <Container fluid flex={1} maw={'100%'} style={{height: '100vh', width: '100%'}}>
             <Title ta='center' mt={100} size='72'>
                 <Text inherit variant="gradient" component="span" gradient={{ from: theme.colors.pink[3], to: theme.colors.blue[3] }}>JWT Viewer</Text>
             </Title>
