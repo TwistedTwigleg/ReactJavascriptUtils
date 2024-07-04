@@ -1,4 +1,4 @@
-import { Group, Code, Text, Space, Button } from '@mantine/core';
+import { Group, Code, Text, Space, Button, Modal, SimpleGrid, Title } from '@mantine/core';
 import {
     IconJson,
     IconLockOpen,
@@ -8,11 +8,13 @@ import {
     IconHtml,
     IconFileCode2,
     IconArrowBarLeft,
-    IconArrowBarRight
+    IconArrowBarRight,
+    IconUser
 } from '@tabler/icons-react';
 import classes from './Navbar.module.css';
 import { ColorSchemeToggle } from '../ColorSchemeToggle/ColorSchemeToggle';
 import { useState } from 'react';
+import { useMantineTheme } from '@mantine/core';
 
 const data = [
     { link: '', label: 'JSON Linter', icon: IconJson },
@@ -26,7 +28,13 @@ const data = [
 
 export function NavbarSimple(props : any) {
 
+    const CURRENT_VERSION = "v1.6.0";
+    const CURRENT_VERSION_DATE = "07/04/2024";
+
+    const theme = useMantineTheme();
+
     const [collapsed, setCollapsed] = useState(false);
+    const [showInfoModal, setShowInfoModal] = useState(false);
     function toggleCollapse() {
         setCollapsed(!collapsed);
     }
@@ -62,43 +70,78 @@ export function NavbarSimple(props : any) {
         </a>
     ));
 
+    function getAboutModel() {
+        return (
+            <Modal opened={showInfoModal} withCloseButton={false} onClose={() => setShowInfoModal(false)} overlayProps={{backgroundOpacity: 0.55, blur:3}} centered>
+                <center style={{fontSize: 54}}>
+                    <Text inherit variant="gradient" component="span" gradient={{ from: theme.colors.pink[3], to: theme.colors.blue[3] }}><b>About</b></Text>
+                    </center>
+                <SimpleGrid cols={2} spacing={'xs'}>
+                    <Text>Created By:</Text>
+                    <Text><a href='https://twistedtwigleg.itch.io/'>TwistedTwigleg</a></Text>
+
+                    <Text>Current Version:</Text>
+                    <Code fw={700}>{CURRENT_VERSION}</Code>
+
+                    <Text>Updated On:</Text>
+                    <Code fw={700}>{CURRENT_VERSION_DATE}</Code>
+
+                    <Button color='grape' onClick={() => window.open("https://github.com/TwistedTwigleg/ReactJavascriptUtils")}>View Source</Button>
+                    <Button color='pink' onClick={() => setShowInfoModal(false)}>Close</Button>
+                </SimpleGrid>
+            </Modal>
+        );
+    }
+
     if (collapsed === false) {
         return (
-            <nav className={classes.navbar}>
-                <div className={classes.navbarMain}>
-                    <Group className={classes.header} justify="space-between">
-                        <Group>
-                            <Button color='pink' onClick={toggleCollapse}><IconArrowBarLeft/></Button>
-                            <Text>Javascript Utils</Text>
+            <>
+                {getAboutModel()}
+                
+                <nav className={classes.navbar}>
+                    <div className={classes.navbarMain}>
+                        <Group className={classes.header} justify="space-between">
+                            <Group>
+                                <Button color='pink' onClick={toggleCollapse}><IconArrowBarLeft/></Button>
+                                <Text>Javascript Utils</Text>
+                            </Group>
+                            <Code fw={700}>{CURRENT_VERSION}</Code>
                         </Group>
-                        <Code fw={700}>v1.5.0</Code>
-                    </Group>
-                    {links}
-                </div>
+                        {links}
+                    </div>
 
-                <div className={classes.footer}>
-                    <Space h='md'></Space>
-                    <Text size='xs'>Website Theme</Text>
-                    <Space h='xs'></Space>
-                    <ColorSchemeToggle></ColorSchemeToggle>
-                    <Space h='md'></Space>
-                    <Text size='xs'>Created by <a href='https://twistedtwigleg.itch.io/'>TwistedTwigleg</a></Text>
-                </div>
-            </nav>
+                    <div className={classes.footer}>
+                        <Space h='md'></Space>
+                        <Text size='xs'>Website Theme</Text>
+                        <Space h='xs'></Space>
+                        <ColorSchemeToggle></ColorSchemeToggle>
+                        <Space h='md'></Space>
+                        <Button style={{width:"100%"}} color='pink' onClick={() => setShowInfoModal(true)}><IconUser/> About</Button>
+                        {/* <Text size='xs'>Created by <a href='https://twistedtwigleg.itch.io/'>TwistedTwigleg</a></Text> */}
+                    </div>
+                </nav>
+            </>
         );
     }
     else {
         return (
-            <nav className={classes.navbar} style={{width: '90px'}}>
-                <div className={classes.navbarMain}>
-                    <Group className={classes.header} justify="space-between">
-                        <Group>
-                            <Button color='pink' onClick={toggleCollapse} flex={1}><IconArrowBarRight/></Button>
+            <>
+                {getAboutModel()}
+
+                <nav className={classes.navbar} style={{width: '90px'}}>
+                    <div className={classes.navbarMain}>
+                        <Group className={classes.header} justify="space-between">
+                            <Group>
+                                <Button color='pink' onClick={toggleCollapse} flex={1}><IconArrowBarRight/></Button>
+                            </Group>
                         </Group>
-                    </Group>
-                    {linksCollapse}
-                </div>
-            </nav>
+                        {linksCollapse}
+                    </div>
+                    <div className={classes.footer}>
+                        <Button style={{width:"100%"}} color='pink' onClick={() => setShowInfoModal(true)}><IconUser/></Button>
+                    </div>
+                </nav>
+            </>
         );
     }
 }

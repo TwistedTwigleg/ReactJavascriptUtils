@@ -1,13 +1,21 @@
 import { Button, Group, useMantineColorScheme } from '@mantine/core';
 
 export function ColorSchemeToggle() {
-  const { setColorScheme } = useMantineColorScheme();
+  const { colorScheme, setColorScheme } = useMantineColorScheme();
 
+  function getColorSchemeButton(type : any, displayName : any) {
+    if (type === colorScheme) {
+      return (<Button color='grape' onClick={() => setColorScheme(type)} variant='filled'>{displayName}</Button>)
+    }
+    else {
+      return (<Button color='grey' onClick={() => setColorScheme(type)} variant='outline'>{displayName}</Button>)
+    }
+  }
   return (
     <Group justify="center">
-      <Button color='grape' onClick={() => setColorScheme('light')}>Light</Button>
-      <Button color='grape' onClick={() => setColorScheme('dark')}>Dark</Button>
-      <Button color='grape' onClick={() => setColorScheme('auto')}>Auto</Button>
+      {getColorSchemeButton('light', "Light")}
+      {getColorSchemeButton('dark', "Dark")}
+      {getColorSchemeButton('auto', "Auto")}
     </Group>
   );
 }

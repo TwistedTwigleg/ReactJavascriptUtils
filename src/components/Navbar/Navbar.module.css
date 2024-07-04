@@ -43,16 +43,21 @@
   }
 
   &[data-active] {
-
-    &,
-    &:hover {
+    & {
       background-color: var(--mantine-color-grape-light);
       color: var(--mantine-color-pink-light-color);
-
       .linkIcon {
         color: var(--mantine-color-pink-light-color);
       }
     }
+    &:hover {
+      background-color: light-dark(darken(var(--mantine-color-grape-light), 0.1), lighten(var(--mantine-color-grape-light), 0.1));
+      color: var(--mantine-color-grape-light-color);
+      .linkIcon {
+        color: var(--mantine-color-grape-light-color);
+      }
+    }
+
   }
 }
 
