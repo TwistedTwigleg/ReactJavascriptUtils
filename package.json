@@ -23,12 +23,14 @@
     "@mantine/core": "7.10.2",
     "@mantine/hooks": "7.10.2",
     "@mantine/notifications": "7.10.2",
+    "@mantine/dates": "7.10.2",
     "@tabler/icons-react": "^3.6.0",
     "diff-match-patch-ts": "^0.6.0",
     "pretty": "^2.0.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "react-router-dom": "^6.22.3"
+    "react-router-dom": "^6.22.3",
+    "dayjs": "1.11.12"
   },
   "devDependencies": {
     "@storybook/addon-essentials": "^8.1.3",

@@ -5,6 +5,7 @@ import { theme } from './theme';
 import '@mantine/notifications/styles.css';
 import { Notifications } from '@mantine/notifications';
 import '@mantine/code-highlight/styles.css';
+import '@mantine/dates/styles.css';
 
 export default function App() {
   return (

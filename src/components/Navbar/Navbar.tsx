@@ -9,7 +9,8 @@ import {
     IconFileCode2,
     IconArrowBarLeft,
     IconArrowBarRight,
-    IconUser
+    IconUser,
+    IconClock
 } from '@tabler/icons-react';
 import classes from './Navbar.module.css';
 import { ColorSchemeToggle } from '../ColorSchemeToggle/ColorSchemeToggle';
@@ -23,13 +24,14 @@ const data = [
     { link: '', label: 'Base64 Decoder', icon: IconLockOpen },
     { link: '', label: 'URL Decoder', icon: IconFileCode2 },
     { link: '', label: 'JWT Viewer', icon: IconKey },
+    { link: '', label: 'Epoch Decoder', icon: IconClock },
     { link: '', label: 'Input Compare', icon: IconBook }
 ];
 
 export function NavbarSimple(props : any) {
 
-    const CURRENT_VERSION = "v1.6.0";
-    const CURRENT_VERSION_DATE = "07/04/2024";
+    const CURRENT_VERSION = "v1.7.0";
+    const CURRENT_VERSION_DATE = "07/21/2024";
 
     const theme = useMantineTheme();
 
@@ -117,7 +119,6 @@ export function NavbarSimple(props : any) {
                         <ColorSchemeToggle></ColorSchemeToggle>
                         <Space h='md'></Space>
                         <Button style={{width:"100%"}} color='pink' onClick={() => setShowInfoModal(true)}><IconUser/> About</Button>
-                        {/* <Text size='xs'>Created by <a href='https://twistedtwigleg.itch.io/'>TwistedTwigleg</a></Text> */}
                     </div>
                 </nav>
             </>

@@ -11,6 +11,7 @@ import { HtmlLinter } from '@/components/HtmlLinter/HtmlLinter';
 
 import { useMantineTheme } from '@mantine/core';
 import { InputCompare } from '@/components/InputCompare/InputCompare';
+import { EpochDecoder } from '@/components/EpochDecoder/EpochDecoder';
 
 export function HomePage() {
 
@@ -39,6 +40,10 @@ export function HomePage() {
     else if (currentView === "Input Compare") {
       return (<InputCompare></InputCompare>)
     }
+    else if (currentView === "Epoch Decoder") {
+      return (<EpochDecoder></EpochDecoder>)
+    }
+
     else {
       return (<Container style={{height: '100vh', width: '100%'}}>
                 <Title ta='center' mt={100} size='72'>

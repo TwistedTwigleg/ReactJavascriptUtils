@@ -1282,6 +1282,13 @@
     react-textarea-autosize "8.5.3"
     type-fest "^4.12.0"
 
+"@mantine/dates@7.10.2":
+  version "7.10.2"
+  resolved "https://registry.npmjs.org/@mantine/dates/-/dates-7.10.2.tgz"
+  integrity sha512-3YwrQ7UzwnKq07wS9/N10jkMHtTlOZI7TM9uRo4M2HPzw8d9w9IN21qAnVDkOCfATWzxiINcQEtICTdtDHhMFg==
+  dependencies:
+    clsx "^2.1.1"
+
 "@mantine/hooks@7.10.2":
   version "7.10.2"
   resolved "https://registry.npmjs.org/@mantine/hooks/-/hooks-7.10.2.tgz"
@@ -3586,6 +3593,11 @@ data-view-byte-offset@^1.0.0:
     call-bind "^1.0.6"
     es-errors "^1.3.0"
     is-data-view "^1.0.1"
+
+dayjs@>=1.0.0, dayjs@1.11.12:
+  version "1.11.12"
+  resolved "https://registry.npmjs.org/dayjs/-/dayjs-1.11.12.tgz"
+  integrity sha512-Rt2g+nTbLlDWZTwwrIXjy9MeiZmSDI375FvZs72ngxx8PDC6YXOeR3q5LAuPzjZQxhiWdRKac7RKV+YyQYfYIg==
 
 debug@^3.2.7:
   version "3.2.7"
