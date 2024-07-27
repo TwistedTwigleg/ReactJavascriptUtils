@@ -10,7 +10,8 @@ import {
     IconArrowBarLeft,
     IconArrowBarRight,
     IconUser,
-    IconClock
+    IconClock,
+    IconScript
 } from '@tabler/icons-react';
 import classes from './Navbar.module.css';
 import { ColorSchemeToggle } from '../ColorSchemeToggle/ColorSchemeToggle';
@@ -25,13 +26,14 @@ const data = [
     { link: '', label: 'URL Decoder', icon: IconFileCode2 },
     { link: '', label: 'JWT Viewer', icon: IconKey },
     { link: '', label: 'Epoch Decoder', icon: IconClock },
-    { link: '', label: 'Input Compare', icon: IconBook }
+    { link: '', label: 'Input Compare', icon: IconBook },
+    { link: '', label: 'Javascript Runner', icon: IconScript },
 ];
 
 export function NavbarSimple(props : any) {
 
-    const CURRENT_VERSION = "v1.7.0";
-    const CURRENT_VERSION_DATE = "07/21/2024";
+    const CURRENT_VERSION = "v1.8.0";
+    const CURRENT_VERSION_DATE = "07/27/2024";
 
     const theme = useMantineTheme();
 
@@ -89,6 +91,10 @@ export function NavbarSimple(props : any) {
                     <Code fw={700}>{CURRENT_VERSION_DATE}</Code>
 
                     <Button color='grape' onClick={() => window.open("https://github.com/TwistedTwigleg/ReactJavascriptUtils")}>View Source</Button>
+                    <Button color='grape' onClick={() => {localStorage.clear(); setShowInfoModal(false)}}>Clear Save Data</Button>
+                </SimpleGrid>
+                <Space h='xs'></Space>
+                <SimpleGrid cols={1} spacing={'xs'}>
                     <Button color='pink' onClick={() => setShowInfoModal(false)}>Close</Button>
                 </SimpleGrid>
             </Modal>

@@ -13,8 +13,8 @@ import {
 
 export function XmlLinter() {
 
-    const [xmlInput, setXmlInput] = useState('');
-    const [xmlOutput, setXmlOutput] = useState('');
+    const [xmlInput, setXmlInput] = useState(localStorage.getItem("xmlLinter_xmlInput") || '');
+    const [xmlOutput, setXmlOutput] = useState(localStorage.getItem("xmlLinter_xmlOutput") || '');
     const [statusText, setStatusText] = useState(<Text span>Empty</Text>)
     const [xmlFileValue, setXmlFileValue] = useState<File | null>(null);
 
@@ -173,6 +173,17 @@ export function XmlLinter() {
         }, 0); 
     }
 
+    function onSaveToLocalStorage() {
+        localStorage.setItem("xmlLinter_xmlInput", xmlInput);
+        localStorage.setItem("xmlLinter_xmlOutput", xmlOutput);
+        setStatusText((<Text span color='green'>Saved to LocalStorage</Text>));
+    }
+    function onClearFromLocalStorage() {
+        localStorage.removeItem("xmlLinter_xmlInput");
+        localStorage.removeItem("xmlLinter_xmlOutput");
+        setStatusText((<Text span color='green'>Cleared LocalStorage</Text>));
+    }
+
     return (
         <Container fluid flex={1} maw={'100%'} style={{height: '100vh', width: '100%'}}>
             <Title ta='center' mt={100} size='72'>
@@ -219,6 +230,12 @@ export function XmlLinter() {
             <SimpleGrid cols={2}>
                 <Button color='grape' onClick={onCopyToClipboard} disabled={xmlOutput==''}><IconClipboard/>Copy to clipboard</Button>
                 <Button color='grape' onClick={onDownloadFilePressed} disabled={xmlOutput==''}><IconFile/>Save to File</Button>
+            </SimpleGrid>
+
+            <Space h='xs'></Space>
+            <SimpleGrid cols={2}>
+                <Button color='grape' onClick={onSaveToLocalStorage}><IconFile/>Save to LocalStorage</Button>
+                <Button color='grape' onClick={onClearFromLocalStorage}><IconFile/>Clear LocalStorage</Button>
             </SimpleGrid>
 
             <Space h='xl'></Space>

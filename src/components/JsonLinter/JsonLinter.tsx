@@ -14,8 +14,8 @@ import {
 
 export function JsonLinter() {
 
-    const [jsonLintInput, setJsonLintInput] = useState('');
-    const [jsonLintOutput, setJsonLintOutput] = useState('');
+    const [jsonLintInput, setJsonLintInput] = useState(localStorage.getItem("JsonLinter_jsonInput") || '');
+    const [jsonLintOutput, setJsonLintOutput] = useState(localStorage.getItem("JsonLinter_jsonOutput") || '');
     const [jsonFileValue, setJsonFileValue] = useState<File | null>(null);
     
     const [statusText, setStatusText] = useState(<Text span>Empty</Text>)
@@ -167,6 +167,17 @@ export function JsonLinter() {
         }, 0); 
     }
 
+    function onSaveToLocalStorage() {
+        localStorage.setItem("JsonLinter_jsonInput", jsonLintInput);
+        localStorage.setItem("JsonLinter_jsonOutput", jsonLintOutput);
+        setStatusText((<Text span color='green'>Saved to LocalStorage</Text>));
+    }
+    function onClearFromLocalStorage() {
+        localStorage.removeItem("JsonLinter_jsonInput");
+        localStorage.removeItem("JsonLinter_jsonOutput");
+        setStatusText((<Text span color='green'>Cleared LocalStorage</Text>));
+    }
+
     return (
         <Container fluid flex={1} maw={'100%'} style={{height: '100vh', width: '100%'}}>
             <Title ta='center' mt={100} size='72'>
@@ -214,6 +225,12 @@ export function JsonLinter() {
             <SimpleGrid cols={2}>
                 <Button color='grape' onClick={onCopyToClipboard} disabled={jsonLintOutput==''}><IconClipboard/>Copy to clipboard</Button>
                 <Button color='grape' onClick={onDownloadFilePressed} disabled={jsonLintOutput==''}><IconFile/>Save to File</Button>
+            </SimpleGrid>
+
+            <Space h='xs'></Space>
+            <SimpleGrid cols={2}>
+                <Button color='grape' onClick={onSaveToLocalStorage}><IconFile/>Save to LocalStorage</Button>
+                <Button color='grape' onClick={onClearFromLocalStorage}><IconFile/>Clear LocalStorage</Button>
             </SimpleGrid>
 
             <Space h='xl'></Space>

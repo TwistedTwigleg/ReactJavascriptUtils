@@ -15,8 +15,8 @@ import {
 
 export function HtmlLinter() {
 
-    const [htmlInput, setHtmlInput] = useState('');
-    const [htmlOutput, setHtmlOutput] = useState('');
+    const [htmlInput, setHtmlInput] = useState(localStorage.getItem("htmlLinter_htmlInput") || '');
+    const [htmlOutput, setHtmlOutput] = useState(localStorage.getItem("htmlLinter_htmlOutput") || '');
     const [statusText, setStatusText] = useState(<Text span>Empty</Text>)
     const domParser = new DOMParser();
     const [htmlFileValue, setHtmlFileValue] = useState<File | null>(null);
@@ -157,6 +157,17 @@ export function HtmlLinter() {
         }, 0); 
     }
 
+    function onSaveToLocalStorage() {
+        localStorage.setItem("htmlLinter_htmlInput", htmlInput);
+        localStorage.setItem("htmlLinter_htmlOutput", htmlOutput);
+        setStatusText((<Text span color='green'>Saved to LocalStorage</Text>));
+    }
+    function onClearFromLocalStorage() {
+        localStorage.removeItem("htmlLinter_htmlInput");
+        localStorage.removeItem("htmlLinter_htmlOutput");
+        setStatusText((<Text span color='green'>Cleared LocalStorage</Text>));
+    }
+
     return (
         <Container fluid flex={1} maw={'100%'} style={{height: '100vh', width: '100%'}}>
             <Title ta='center' mt={100} size='72'>
@@ -204,6 +215,12 @@ export function HtmlLinter() {
             <SimpleGrid cols={2}>
                 <Button color='grape' onClick={onCopyToClipboard} disabled={htmlOutput==''}><IconClipboard/>Copy to clipboard</Button>
                 <Button color='grape' onClick={onDownloadFilePressed} disabled={htmlOutput==''}><IconFile/>Save to File</Button>
+            </SimpleGrid>
+
+            <Space h='xs'></Space>
+            <SimpleGrid cols={2}>
+                <Button color='grape' onClick={onSaveToLocalStorage}><IconFile/>Save to LocalStorage</Button>
+                <Button color='grape' onClick={onClearFromLocalStorage}><IconFile/>Clear LocalStorage</Button>
             </SimpleGrid>
 
             <Space h='xl'></Space>

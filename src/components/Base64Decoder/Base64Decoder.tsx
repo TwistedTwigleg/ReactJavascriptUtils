@@ -12,8 +12,8 @@ import {
 
 export function Base64Decoder() {
 
-    const [base64Input, setBase64Input] = useState('');
-    const [base64Output, setBase64Output] = useState('');
+    const [base64Input, setBase64Input] = useState(localStorage.getItem("Base64Decoder_base64Input") || '');
+    const [base64Output, setBase64Output] = useState(localStorage.getItem("Base64Decoder_base64Output") || '');
     const [statusText, setStatusText] = useState(<Text span>Empty</Text>)
 
     const theme = useMantineTheme();
@@ -79,6 +79,17 @@ export function Base64Decoder() {
         }, 0); 
     }
 
+    function onSaveToLocalStorage() {
+        localStorage.setItem("Base64Decoder_base64Input", base64Input);
+        localStorage.setItem("Base64Decoder_base64Output", base64Output);
+        setStatusText((<Text span color='green'>Saved to LocalStorage</Text>));
+    }
+    function onClearFromLocalStorage() {
+        localStorage.removeItem("Base64Decoder_base64Input");
+        localStorage.removeItem("Base64Decoder_base64Output");
+        setStatusText((<Text span color='green'>Cleared LocalStorage</Text>));
+    }
+
     return (
         <Container fluid flex={1} maw={'100%'} style={{height: '100vh', width: '100%'}}>
             <Title ta='center' mt={100} size='72'>
@@ -119,6 +130,12 @@ export function Base64Decoder() {
             <SimpleGrid cols={2}>
                 <Button color='grape' onClick={onCopyToClipboard} disabled={base64Output==''}><IconClipboard/>Copy to clipboard</Button>
                 <Button color='grape' onClick={onDownloadFilePressed} disabled={base64Output==''}><IconFile/>Save to File</Button>
+            </SimpleGrid>
+
+            <Space h='xs'></Space>
+            <SimpleGrid cols={2}>
+                <Button color='grape' onClick={onSaveToLocalStorage}><IconFile/>Save to LocalStorage</Button>
+                <Button color='grape' onClick={onClearFromLocalStorage}><IconFile/>Clear LocalStorage</Button>
             </SimpleGrid>
 
         </Container>

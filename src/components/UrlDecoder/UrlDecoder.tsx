@@ -6,13 +6,14 @@ import { useMantineTheme } from '@mantine/core';
 import {
     IconLock,
     IconLockOpen,
-    IconClipboard
+    IconClipboard,
+    IconFile
 } from '@tabler/icons-react';
 
 export function UrlDecoder() {
 
-    const [urlInput, setUrlInput] = useState('');
-    const [urlOutput, setUrlOutput] = useState('');
+    const [urlInput, setUrlInput] = useState(localStorage.getItem("UrlDecoder_urlInput") || '');
+    const [urlOutput, setUrlOutput] = useState(localStorage.getItem("UrlDecoder_urlOutput") || '');
     const [statusText, setStatusText] = useState(<Text span>Empty</Text>);
 
     const theme = useMantineTheme();
@@ -43,6 +44,17 @@ export function UrlDecoder() {
     function onCopyToClipboard() {
         navigator.clipboard.writeText(urlOutput);
         setStatusText((<Text span color='green'>Output copied to clipboard</Text>));
+    }
+
+    function onSaveToLocalStorage() {
+        localStorage.setItem("UrlDecoder_urlInput", urlInput);
+        localStorage.setItem("UrlDecoder_urlOutput", urlOutput);
+        setStatusText((<Text span color='green'>Saved to LocalStorage</Text>));
+    }
+    function onClearFromLocalStorage() {
+        localStorage.removeItem("UrlDecoder_urlInput");
+        localStorage.removeItem("UrlDecoder_urlOutput");
+        setStatusText((<Text span color='green'>Cleared LocalStorage</Text>));
     }
 
     return (
@@ -84,6 +96,12 @@ export function UrlDecoder() {
             <Space h='xs'></Space>
             <SimpleGrid cols={1}>
                 <Button color='grape' onClick={onCopyToClipboard} disabled={urlOutput==''}><IconClipboard/>Copy to clipboard</Button>
+            </SimpleGrid>
+
+            <Space h='xs'></Space>
+            <SimpleGrid cols={2}>
+                <Button color='grape' onClick={onSaveToLocalStorage}><IconFile/>Save to LocalStorage</Button>
+                <Button color='grape' onClick={onClearFromLocalStorage}><IconFile/>Clear LocalStorage</Button>
             </SimpleGrid>
 
         </Container>
